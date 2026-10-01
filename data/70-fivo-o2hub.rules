@@ -1,0 +1,11 @@
+# Fivo o2Hub udev rules.
+# Numbered below 73 on purpose: TAG+="uaccess" only takes effect in rules that
+# run before systemd's 73-seat-late.rules.
+
+# Macro engine: create virtual input devices.
+KERNEL=="uinput", SUBSYSTEM=="misc", GROUP="input", MODE="0660", TAG+="uaccess"
+
+# Talk HID++ to Logitech mice and receivers without root (DPI, buttons, lighting).
+# uaccess grants the logged-in desktop user access; the input group covers
+# the background service.
+KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="046d", GROUP="input", MODE="0660", TAG+="uaccess"
